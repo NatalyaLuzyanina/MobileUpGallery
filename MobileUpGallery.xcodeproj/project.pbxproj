@@ -18,6 +18,12 @@
 		B9B4BE0B2C6D594400C770BC /* LoginWebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE0A2C6D594400C770BC /* LoginWebViewPresenter.swift */; };
 		B9B4BE0D2C6D64C900C770BC /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE0C2C6D64C900C770BC /* LoginRouter.swift */; };
 		B9B4BE1B2C6E990600C770BC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B9B4BE1A2C6E990600C770BC /* Alamofire */; };
+		B9B4BE202C6EA37B00C770BC /* GalleryContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE1C2C6EA37B00C770BC /* GalleryContainerViewController.swift */; };
+		B9B4BE212C6EA37B00C770BC /* PhotoGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE1D2C6EA37B00C770BC /* PhotoGalleryViewController.swift */; };
+		B9B4BE222C6EA37B00C770BC /* VideoGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE1E2C6EA37B00C770BC /* VideoGalleryViewController.swift */; };
+		B9B4BE242C6EA7C800C770BC /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE232C6EA7C800C770BC /* PhotoCell.swift */; };
+		B9B4BE272C6EB6E200C770BC /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE262C6EB6E200C770BC /* VideoCell.swift */; };
+		B9B4BE2B2C6F429B00C770BC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B9B4BE2A2C6F429B00C770BC /* SnapKit */; };
 		B9E789D62C6B88DC0057901E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E789D52C6B88DC0057901E /* AppDelegate.swift */; };
 		B9E789D82C6B88DC0057901E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E789D72C6B88DC0057901E /* SceneDelegate.swift */; };
 		B9E789DA2C6B88DC0057901E /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E789D92C6B88DC0057901E /* WelcomeViewController.swift */; };
@@ -37,6 +43,11 @@
 		B9B4BE0A2C6D594400C770BC /* LoginWebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebViewPresenter.swift; sourceTree = "<group>"; };
 		B9B4BE0C2C6D64C900C770BC /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		B9B4BE152C6E7F8100C770BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B9B4BE1C2C6EA37B00C770BC /* GalleryContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryContainerViewController.swift; sourceTree = "<group>"; };
+		B9B4BE1D2C6EA37B00C770BC /* PhotoGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoGalleryViewController.swift; sourceTree = "<group>"; };
+		B9B4BE1E2C6EA37B00C770BC /* VideoGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoGalleryViewController.swift; sourceTree = "<group>"; };
+		B9B4BE232C6EA7C800C770BC /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		B9B4BE262C6EB6E200C770BC /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		B9E789D22C6B88DC0057901E /* MobileUpGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileUpGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E789D52C6B88DC0057901E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9E789D72C6B88DC0057901E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9B4BE1B2C6E990600C770BC /* Alamofire in Frameworks */,
+				B9B4BE2B2C6F429B00C770BC /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +99,34 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		B9B4BE1F2C6EA37B00C770BC /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				B9B4BE1C2C6EA37B00C770BC /* GalleryContainerViewController.swift */,
+				B9B4BE252C6EB58A00C770BC /* PhotoGallery */,
+				B9B4BE282C6EBD0600C770BC /* VideoGallery */,
+			);
+			path = Gallery;
+			sourceTree = "<group>";
+		};
+		B9B4BE252C6EB58A00C770BC /* PhotoGallery */ = {
+			isa = PBXGroup;
+			children = (
+				B9B4BE1D2C6EA37B00C770BC /* PhotoGalleryViewController.swift */,
+				B9B4BE232C6EA7C800C770BC /* PhotoCell.swift */,
+			);
+			path = PhotoGallery;
+			sourceTree = "<group>";
+		};
+		B9B4BE282C6EBD0600C770BC /* VideoGallery */ = {
+			isa = PBXGroup;
+			children = (
+				B9B4BE1E2C6EA37B00C770BC /* VideoGalleryViewController.swift */,
+				B9B4BE262C6EB6E200C770BC /* VideoCell.swift */,
+			);
+			path = VideoGallery;
+			sourceTree = "<group>";
+		};
 		B9E789C92C6B88DC0057901E = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +151,7 @@
 				B9813DC02C6CB6FC00E311F3 /* Router.swift */,
 				B9E789D52C6B88DC0057901E /* AppDelegate.swift */,
 				B9E789D72C6B88DC0057901E /* SceneDelegate.swift */,
+				B9B4BE1F2C6EA37B00C770BC /* Gallery */,
 				B9B4BE062C6D53EF00C770BC /* Services */,
 				B9813DB02C6BC29B00E311F3 /* Welcome */,
 				B9B4BE032C6D530200C770BC /* Login */,
@@ -140,6 +181,7 @@
 			name = MobileUpGallery;
 			packageProductDependencies = (
 				B9B4BE1A2C6E990600C770BC /* Alamofire */,
+				B9B4BE2A2C6F429B00C770BC /* SnapKit */,
 			);
 			productName = MobileUpGallery;
 			productReference = B9E789D22C6B88DC0057901E /* MobileUpGallery.app */;
@@ -171,6 +213,7 @@
 			mainGroup = B9E789C92C6B88DC0057901E;
 			packageReferences = (
 				B9B4BE192C6E990600C770BC /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B9B4BE292C6F429B00C770BC /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = B9E789D32C6B88DC0057901E /* Products */;
 			projectDirPath = "";
@@ -199,18 +242,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9B4BE0B2C6D594400C770BC /* LoginWebViewPresenter.swift in Sources */,
+				B9B4BE202C6EA37B00C770BC /* GalleryContainerViewController.swift in Sources */,
 				B9B4BE052C6D53E300C770BC /* AuthService.swift in Sources */,
 				B9E789DA2C6B88DC0057901E /* WelcomeViewController.swift in Sources */,
 				B9813DBB2C6BCF9700E311F3 /* WelcomeView.swift in Sources */,
+				B9B4BE242C6EA7C800C770BC /* PhotoCell.swift in Sources */,
 				B9813DC12C6CB6FC00E311F3 /* Router.swift in Sources */,
 				B9E789D62C6B88DC0057901E /* AppDelegate.swift in Sources */,
 				B9813DB22C6BCAB100E311F3 /* Strings.swift in Sources */,
 				B9E789D82C6B88DC0057901E /* SceneDelegate.swift in Sources */,
 				B9813DBF2C6CB68800E311F3 /* WelcomeRouter.swift in Sources */,
+				B9B4BE272C6EB6E200C770BC /* VideoCell.swift in Sources */,
+				B9B4BE222C6EA37B00C770BC /* VideoGalleryViewController.swift in Sources */,
 				B9813DB42C6BCC6200E311F3 /* WelcomePresenter.swift in Sources */,
 				B9813DB92C6BCCE400E311F3 /* Builder.swift in Sources */,
 				B9B4BE0D2C6D64C900C770BC /* LoginRouter.swift in Sources */,
 				B9813DBD2C6CAD4D00E311F3 /* LoginWebViewController.swift in Sources */,
+				B9B4BE212C6EA37B00C770BC /* PhotoGalleryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +489,14 @@
 				minimumVersion = 5.9.1;
 			};
 		};
+		B9B4BE292C6F429B00C770BC /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -448,6 +504,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B9B4BE192C6E990600C770BC /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		B9B4BE2A2C6F429B00C770BC /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9B4BE292C6F429B00C770BC /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
