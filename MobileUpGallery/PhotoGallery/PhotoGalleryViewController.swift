@@ -7,8 +7,24 @@
 
 import UIKit
 
+protocol PhotoGalleryViewControllerProtocol: AnyObject {
+    func updateView(with model: PhotoGalleryModel)
+}
+
 final class PhotoGalleryViewController: UIViewController {
 
+    private let presenter: PhotoGalleryPresenterProtocol
+    private var model: PhotoGalleryModel?
+    
+    init(presenter: PhotoGalleryPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -22,6 +38,7 @@ final class PhotoGalleryViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(collectionView)
+        presenter.loadData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -33,16 +50,27 @@ final class PhotoGalleryViewController: UIViewController {
 }
 
 extension PhotoGalleryViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        model?.photos.count ?? .zero
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { return UICollectionViewCell() }
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: PhotoCell.identifier, 
+            for: indexPath
+        ) as? PhotoCell
+        else { return UICollectionViewCell() }
+        if let item = model?.photos[indexPath.row] {
+            cell.update(with: item.url)
+        }
         return cell
     }
-    
-    
 }
 
 extension PhotoGalleryViewController: UICollectionViewDelegateFlowLayout {
@@ -82,11 +110,21 @@ extension PhotoGalleryViewController: UICollectionViewDelegate {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        print(indexPath)
+        if let item = model?.photos[indexPath.row] {
+            presenter.showDetailPhoto(id: item.id)
+        }
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
-    PhotoGalleryViewController()
+extension PhotoGalleryViewController: PhotoGalleryViewControllerProtocol {
+    func updateView(with model: PhotoGalleryModel) {
+        collectionView.reloadData()
+    }
+    
+    
 }
+
+//@available(iOS 17.0, *)
+//#Preview {
+//    PhotoGalleryViewController()
+//}

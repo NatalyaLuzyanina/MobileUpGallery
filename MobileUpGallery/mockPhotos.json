@@ -1,0 +1,87 @@
+
+[
+    {
+        "id": 1,
+        "album_id": 101,
+        "owner_id": 1001,
+        "user_id": 100,
+        "text": "Sunset over the mountains",
+        "date": 1689504000,
+        "sizes": [
+            {
+                "type": "s",
+                "url": "https://example.com/photo1_s.jpg",
+                "width": 75,
+                "height": 75
+            },
+            {
+                "type": "m",
+                "url": "https://example.com/photo1_m.jpg",
+                "width": 130,
+                "height": 130
+            },
+            {
+                "type": "x",
+                "url": "https://example.com/photo1_x.jpg",
+                "width": 604,
+                "height": 604
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "album_id": 102,
+        "owner_id": 1002,
+        "user_id": 1050,
+        "text": "City lights at night",
+        "date": 1689590400,
+        "sizes": [
+            {
+                "type": "s",
+                "url": "https://example.com/photo2_s.jpg",
+                "width": 75,
+                "height": 75
+            },
+            {
+                "type": "m",
+                "url": "https://example.com/photo2_m.jpg",
+                "width": 130,
+                "height": 130
+            },
+            {
+                "type": "x",
+                "url": "https://example.com/photo2_x.jpg",
+                "width": 604,
+                "height": 604
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "album_id": 103,
+        "owner_id": 1003,
+        "user_id": 100,
+        "text": "Beach day with friends",
+        "date": 1689676800,
+        "sizes": [
+            {
+                "type": "s",
+                "url": "https://example.com/photo3_s.jpg",
+                "width": 75,
+                "height": 75
+            },
+            {
+                "type": "m",
+                "url": "https://example.com/photo3_m.jpg",
+                "width": 130,
+                "height": 130
+            },
+            {
+                "type": "x",
+                "url": "https://example.com/photo3_x.jpg",
+                "width": 604,
+                "height": 604
+            }
+        ]
+    }
+]

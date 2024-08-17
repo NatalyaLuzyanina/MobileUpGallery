@@ -25,5 +25,19 @@ final class Builder {
         return UINavigationController(rootViewController: view)  
     }
     
+    static func createPhotoGallery() -> UIViewController {
+        let router = PhotoGalleryRouter()
+        let presenter = PhotoGalleryPresenter(router: router)
+        let view = PhotoGalleryViewController(presenter: presenter)
+        router.controller = view
+        presenter.view = view
+        return view
+    }
+    
+    static func createPhoto(id: Int) -> UIViewController {
+        let presenter = PhotoPresenter(id: id)
+        let view = PhotoViewController(presenter: presenter)
+        return view
+    }
     
 }

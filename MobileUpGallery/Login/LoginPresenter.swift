@@ -25,7 +25,7 @@ final class LoginPresenter: LoginPresenterProtocol {
             case .success(_):
                 self?.router.showGallery()
             case .failure(_):
-                // to do
+                #warning("to do")
                 print("failure")
             }
         })

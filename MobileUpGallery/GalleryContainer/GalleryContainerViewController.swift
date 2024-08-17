@@ -18,6 +18,14 @@ final class GalleryContainerViewController: UIViewController {
     private var currentViewController: UIViewController?
     private let contentView = UIView()
     
+    private var photoVC: UIViewController {
+        Builder.createPhotoGallery()
+    }
+    
+    private var videoVC: UIViewController {
+        VideoGalleryViewController()
+    }
+    
     private lazy var segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
             Strings.Gallery.photo,
@@ -49,7 +57,9 @@ final class GalleryContainerViewController: UIViewController {
             target: self,
             action: #selector(logOutButtonTapped)
         )
-        navigationItem.rightBarButtonItem?.tintColor = .black
+        navigationController?.navigationBar.tintColor = .black
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButton
         
         view.backgroundColor = .white
         view.addSubview(segmentedControl)
@@ -59,7 +69,6 @@ final class GalleryContainerViewController: UIViewController {
     
     @objc private func logOutButtonTapped() {
         presenter.logout()
-        print(#function)
     }
     
     @objc private func switchTabs() {
@@ -74,8 +83,6 @@ final class GalleryContainerViewController: UIViewController {
     
     private func displayCurrent(tab: Tab){
         var vc: UIViewController
-        let photoVC = PhotoGalleryViewController()
-        let videoVC = VideoGalleryViewController()
         
         switch tab {
         case .photo:
