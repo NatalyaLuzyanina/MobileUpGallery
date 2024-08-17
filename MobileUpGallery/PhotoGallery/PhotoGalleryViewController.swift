@@ -118,6 +118,7 @@ extension PhotoGalleryViewController: UICollectionViewDelegate {
 
 extension PhotoGalleryViewController: PhotoGalleryViewControllerProtocol {
     func updateView(with model: PhotoGalleryModel) {
+        self.model = model
         collectionView.reloadData()
     }
     

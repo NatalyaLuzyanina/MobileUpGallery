@@ -15,10 +15,7 @@ final class PhotoViewController: UIViewController {
 
     private let presenter: PhotoPresenterProtocol
     
-    private let photoImage: UIImageView = {
-       let view = UIImageView()
-        return view
-    }()
+    private let photoImage = UIImageView()
     
     init(presenter: PhotoPresenterProtocol) {
         self.presenter = presenter
@@ -53,7 +50,12 @@ final class PhotoViewController: UIViewController {
     }
 
     @objc private func sharePhoto() {
-        print(#function)
+        guard let image = photoImage.image else { return }
+        let activityViewController = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: [UIActivity()]
+        )
+        present(activityViewController, animated: true)
     }
 }
 

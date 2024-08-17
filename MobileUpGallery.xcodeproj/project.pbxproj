@@ -112,6 +112,14 @@
 			path = Photo;
 			sourceTree = "<group>";
 		};
+		B94603742C714F810025AA3B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B94603722C713CCE0025AA3B /* Date+extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		B9813DB02C6BC29B00E311F3 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,16 +199,16 @@
 			children = (
 				B9813DB82C6BCCE400E311F3 /* Builder.swift */,
 				B9813DC02C6CB6FC00E311F3 /* Router.swift */,
-				B94603722C713CCE0025AA3B /* Date+extension.swift */,
 				B9E789D52C6B88DC0057901E /* AppDelegate.swift */,
 				B9E789D72C6B88DC0057901E /* SceneDelegate.swift */,
 				B95A2B7A2C710606001F239D /* mockPhotos.json */,
+				B9813DB02C6BC29B00E311F3 /* Login */,
 				B9B4BE1F2C6EA37B00C770BC /* GalleryContainer */,
 				B9B4BE252C6EB58A00C770BC /* PhotoGallery */,
 				B9B4BE282C6EBD0600C770BC /* VideoGallery */,
 				B946036D2C712D400025AA3B /* Photo */,
 				B9B4BE062C6D53EF00C770BC /* Services */,
-				B9813DB02C6BC29B00E311F3 /* Login */,
+				B94603742C714F810025AA3B /* Extensions */,
 				B9E789DE2C6B88DE0057901E /* Assets.xcassets */,
 				B9813DB12C6BCAB100E311F3 /* Strings.swift */,
 				B9E789E02C6B88DE0057901E /* LaunchScreen.storyboard */,
