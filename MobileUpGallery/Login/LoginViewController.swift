@@ -1,5 +1,5 @@
 //
-//  WelcomeViewController.swift
+//  LoginViewController.swift
 //  MobileUpGallery
 //
 //  Created by Natalia on 13.08.2024.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-final class WelcomeViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
-    private let presenter: WelcomePresenterProtocol
-    private let customView = WelcomeView()
+    private let presenter: LoginPresenterProtocol
+    private let customView = LoginView()
     
-    init(presenter: WelcomePresenterProtocol) {
+    init(presenter: LoginPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -28,7 +28,7 @@ final class WelcomeViewController: UIViewController {
     
 }
 
-extension WelcomeViewController: WelcomeViewDelegate {
+extension LoginViewController: LoginViewDelegate {
     func loginButtonTapped() {
         presenter.startLogin()
     }

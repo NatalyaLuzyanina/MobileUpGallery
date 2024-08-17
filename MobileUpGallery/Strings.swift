@@ -6,7 +6,7 @@
 //
 
 struct Strings {
-    struct Welcome {
+    struct Login {
         static let title = "Mobile Up\nGallery"
         static let buttonTitle = "Вход через VK"
     }

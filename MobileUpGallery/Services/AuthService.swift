@@ -7,85 +7,115 @@
 
 import Alamofire
 import AuthenticationServices
+import KeychainSwift
 
-final class AuthService {
+final class AuthService: NSObject {
     
     static let shared = AuthService()
-    private init(){}
-    
-    func configureAuthUrl() -> URL? {
-        var urlComponets = URLComponents()
-        urlComponets.scheme = "https"
-        urlComponets.host = "oauth.vk.com"
-        urlComponets.path = "/authorize"
-        
-        urlComponets.queryItems = [
-            URLQueryItem(name: "client_id", value: "52141203"),
-            URLQueryItem(name: "redirect_uri", value: "vk52141203://vk.com/blank.html"),
-            URLQueryItem(name: "state", value: "abracadabra"),
-            URLQueryItem(name: "prompt", value: "login"),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "code_challenge", value: "1DDoDWTzErI69s0x6NXeoLmrsf8FSTXbxQTD_gAryhk"),
-            URLQueryItem(name: "code_challenge_method", value: "sha256")
-        ]
-        
-        let url = urlComponets.url
-        return url
+    private override init(){
+        super.init()
     }
     
-    func fetchCode(from url: URL) {
-        print("redirect url - \(url)")
-        let params = url.fragment?.components(separatedBy: "&")
-            .map { $0.components(separatedBy: "=") }
-            .reduce([String: String]()) { partialResult, param in
-                var dict = partialResult
-                let key = param[0]
-                let value = param[1]
-                dict[key] = value
-                return dict
-            }
+    private let keychain = KeychainSwift()
+    
+    func startAuthSession(completion: @escaping (Result<Void, NetworkError>) -> Void) {
         
-        if let code = params?["code"] {
-            fetchAccessToken(with: code)
+        let queryItems: [URLQueryItem] = [
+            .init(name: "state", value: "abracadabra"),
+            .init(name: "response_type", value: "code"),
+            .init(name: "code_challenge", value: "1DDoDWTzErI69s0x6NXeoLmrsf8FSTXbxQTD_gAryhk"),
+            .init(name: "code_challenge_method", value: "sha256"),
+            .init(name: "client_id", value: "52141203"),
+            .init(name: "redirect_uri", value: "vk52141203://vk.com/blank.html"),
+            .init(name: "prompt", value: "login")
+        ]
+        
+        guard let url = createUrl(path: "/authorize", queryItems: queryItems) else {
+            completion(.failure(.authError))
+            return
         }
+        
+        let session = ASWebAuthenticationSession(
+            url: url,
+            callbackURLScheme: "vk52141203"
+        ) { [weak self] callbackUrl, _ in
+            guard let url = callbackUrl else {
+                completion(.failure(.authError))
+                return
+            }
+            
+            let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+            let code = queryItems?.first(where: { $0.name == "code" })?.value
+            let deviceId = queryItems?.first(where: { $0.name == "device_id" })?.value
+            self?.fetchAccessToken(with: code, deviceId: deviceId, completion: { result in
+                completion(result)
+            })
+            
+        }
+        session.presentationContextProvider = self
+        session.start()
     }
     
-    func fetchAccessToken(with code: String) {
-        var urlComponets = URLComponents()
-        urlComponets.scheme = "https"
-        urlComponets.host = "id.vk.com"
-        urlComponets.path = "/oauth2/auth"
-        urlComponets.queryItems = [
-            URLQueryItem(name: "client_id", value: "52141203"),
-            URLQueryItem(name: "grant_type", value: "authorization_code"),
-            URLQueryItem(name: "redirect_uri", value: "vk52141203://vk.com/blank.html"),
-            URLQueryItem(name: "code_verifier", value: "egPK3gB2Gtfh_sR7pReSKzHzIsansss5JFeJEOmFKBY"),
+    private func fetchAccessToken(with code: String?, deviceId: String?, completion: @escaping (Result<Void, NetworkError>) -> Void) {
+        guard let code = code, let deviceId = deviceId else {
+            completion(.failure(.authError))
+            return
+        }
+        
+        let queryItems: [URLQueryItem] = [
+            .init(name: "client_id", value: "52141203"),
+            .init(name: "grant_type", value: "authorization_code"),
+            .init(name: "device_id", value: deviceId),
+            .init(name: "redirect_uri", value: "vk52141203://vk.com/blank.html"),
+            .init(name: "code_verifier", value: "egPK3gB2Gtfh_sR7pReSKzHzIsansss5JFeJEOmFKBY"),
         ]
         
-        guard let url = urlComponets.url else {
-            print("url does not exist")
+        guard let url = createUrl(path: "/oauth2/auth", queryItems: queryItems) else {
+            completion(.failure(.authError))
             return
         }
         
         let parameters = ["code": code]
-        
-        let headers = HTTPHeaders(["Content-Type": "application/json"])
+        let headers: HTTPHeaders = ["Content-Type": "application/json"]
         
         AF.request(
             url,
             method: .post,
             parameters: parameters,
+            encoder: JSONParameterEncoder.default,
             headers: headers
         )
         .validate()
-        .responseDecodable(of: [String: String].self) { response in
+        .responseDecodable(of: AccessTokenResponse.self) { [weak self] response in
             switch response.result {
             case .success(let response):
-                print(response)
+                self?.keychain.set(response.accessToken, forKey: "accessToken")
+                self?.keychain.set(response.refreshToken, forKey: "refreshToken")
+                completion(.success(()))
             case .failure(let error):
+                completion(.failure(.responseError))
                 print("Request error: \(error.localizedDescription)")
             }
         }
-        
+    }
+    
+    private func createUrl(path: String, queryItems: [URLQueryItem]) -> URL? {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "id.vk.com"
+        urlComponents.path = path
+        urlComponents.queryItems = queryItems
+        return urlComponents.url
+    }
+}
+
+extension AuthService: ASWebAuthenticationPresentationContextProviding {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let windowDelegate = windowScene.delegate as? SceneDelegate,
+           let window = windowDelegate.window {
+            return window
+        }
+        return ASPresentationAnchor()
     }
 }

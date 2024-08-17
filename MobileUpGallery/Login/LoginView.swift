@@ -1,5 +1,5 @@
 //
-//  WelcomeView.swift
+//  LoginView.swift
 //  MobileUpGallery
 //
 //  Created by Natalia on 13.08.2024.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-protocol WelcomeViewDelegate: AnyObject {
+protocol LoginViewDelegate: AnyObject {
    func loginButtonTapped()
 }
 
-final class WelcomeView: UIView {
+final class LoginView: UIView {
     
-    weak var delegate: WelcomeViewDelegate?
+    weak var delegate: LoginViewDelegate?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Strings.Welcome.title
+        label.text = Strings.Login.title
         label.numberOfLines = .zero
         label.font = .systemFont(ofSize: 44, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +26,7 @@ final class WelcomeView: UIView {
     
     private lazy var loginButton: UIButton = {
         let button = UIButton()
-        button.setTitle(Strings.Welcome.buttonTitle, for: .normal)
+        button.setTitle(Strings.Login.buttonTitle, for: .normal)
         button.backgroundColor = .black
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)

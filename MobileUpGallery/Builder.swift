@@ -9,25 +9,16 @@ import UIKit
 
 final class Builder {
     
-    static func createWelcome() -> UIViewController {
-        let router = WelcomeRouter()
-        let presenter = WelcomePresenter(router: router)
-        let view = WelcomeViewController(presenter: presenter)
-        router.controller = view
-        return view
-    }
-    
-    static func createWebView() -> UIViewController {
+    static func createLogin() -> UIViewController {
         let router = LoginRouter()
-        let presenter = LoginWebViewPresenter(router: router)
-        let view = LoginWebViewController(presenter: presenter)
-        presenter.view = view
+        let presenter = LoginPresenter(router: router)
+        let view = LoginViewController(presenter: presenter)
         router.controller = view
         return view
     }
     
     static func createGallery() -> UIViewController {
-        UIViewController()
+        GalleryContainerViewController()
     }
     
     
