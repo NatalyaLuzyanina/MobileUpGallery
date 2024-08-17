@@ -22,6 +22,8 @@ class Router {
     }
     
     func presentScreen(_ vc: UIViewController) {
-        controller?.present(vc, animated: true)
+        if let window = controller?.view.window {
+            window.rootViewController = vc
+        }
     }
 }

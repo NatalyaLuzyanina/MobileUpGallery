@@ -14,8 +14,8 @@ final class GalleryContainerViewController: UIViewController {
         case video
     }
     
+    private let presenter: GalleryContainerPresenterProtocol
     private var currentViewController: UIViewController?
-    
     private let contentView = UIView()
     
     private lazy var segmentedControl: UISegmentedControl = {
@@ -29,6 +29,15 @@ final class GalleryContainerViewController: UIViewController {
                           for: .valueChanged)
         return control
     }()
+    
+    init(presenter: GalleryContainerPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +58,7 @@ final class GalleryContainerViewController: UIViewController {
     }
     
     @objc private func logOutButtonTapped() {
+        presenter.logout()
         print(#function)
     }
     
@@ -93,9 +103,4 @@ final class GalleryContainerViewController: UIViewController {
             $0.bottom.leading.trailing.equalToSuperview()
         }
     }
-}
-
-@available(iOS 17.0, *)
-#Preview {
-    GalleryContainerViewController()
 }

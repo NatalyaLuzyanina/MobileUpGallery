@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B95A2B6A2C70C794001F239D /* GalleryContainerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A2B692C70C794001F239D /* GalleryContainerPresenter.swift */; };
+		B95A2B6C2C70C8DF001F239D /* GalleryContainerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A2B6B2C70C8DF001F239D /* GalleryContainerRouter.swift */; };
 		B9813DB22C6BCAB100E311F3 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9813DB12C6BCAB100E311F3 /* Strings.swift */; };
 		B9813DB42C6BCC6200E311F3 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9813DB32C6BCC6200E311F3 /* LoginPresenter.swift */; };
 		B9813DB92C6BCCE400E311F3 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9813DB82C6BCCE400E311F3 /* Builder.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B95A2B692C70C794001F239D /* GalleryContainerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryContainerPresenter.swift; sourceTree = "<group>"; };
+		B95A2B6B2C70C8DF001F239D /* GalleryContainerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryContainerRouter.swift; sourceTree = "<group>"; };
 		B9813DB12C6BCAB100E311F3 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		B9813DB32C6BCC6200E311F3 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		B9813DB82C6BCCE400E311F3 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
@@ -95,6 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				B9B4BE1C2C6EA37B00C770BC /* GalleryContainerViewController.swift */,
+				B95A2B692C70C794001F239D /* GalleryContainerPresenter.swift */,
+				B95A2B6B2C70C8DF001F239D /* GalleryContainerRouter.swift */,
 				B9B4BE252C6EB58A00C770BC /* PhotoGallery */,
 				B9B4BE282C6EBD0600C770BC /* VideoGallery */,
 			);
@@ -244,7 +250,9 @@
 				B9D330432C708B7E003791C2 /* AuthModel.swift in Sources */,
 				B9813DB22C6BCAB100E311F3 /* Strings.swift in Sources */,
 				B9D330452C709C40003791C2 /* ErrorModel.swift in Sources */,
+				B95A2B6C2C70C8DF001F239D /* GalleryContainerRouter.swift in Sources */,
 				B9E789D82C6B88DC0057901E /* SceneDelegate.swift in Sources */,
+				B95A2B6A2C70C794001F239D /* GalleryContainerPresenter.swift in Sources */,
 				B9813DBF2C6CB68800E311F3 /* LoginRouter.swift in Sources */,
 				B9B4BE272C6EB6E200C770BC /* VideoCell.swift in Sources */,
 				B9B4BE222C6EA37B00C770BC /* VideoGalleryViewController.swift in Sources */,

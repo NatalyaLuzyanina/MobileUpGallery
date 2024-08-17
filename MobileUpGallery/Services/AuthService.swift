@@ -18,6 +18,14 @@ final class AuthService: NSObject {
     
     private let keychain = KeychainSwift()
     
+    private let vkAppId = "52141203"
+    private var redirectUri: String {
+        "vk\(vkAppId)://vk.com/blank.html"
+    }
+    private var callbackURLScheme: String {
+        "vk\(vkAppId)"
+    }
+    
     func startAuthSession(completion: @escaping (Result<Void, NetworkError>) -> Void) {
         
         let queryItems: [URLQueryItem] = [
@@ -25,8 +33,8 @@ final class AuthService: NSObject {
             .init(name: "response_type", value: "code"),
             .init(name: "code_challenge", value: "1DDoDWTzErI69s0x6NXeoLmrsf8FSTXbxQTD_gAryhk"),
             .init(name: "code_challenge_method", value: "sha256"),
-            .init(name: "client_id", value: "52141203"),
-            .init(name: "redirect_uri", value: "vk52141203://vk.com/blank.html"),
+            .init(name: "client_id", value: vkAppId),
+            .init(name: "redirect_uri", value: redirectUri),
             .init(name: "prompt", value: "login")
         ]
         
@@ -34,11 +42,11 @@ final class AuthService: NSObject {
             completion(.failure(.authError))
             return
         }
-        
         let session = ASWebAuthenticationSession(
             url: url,
-            callbackURLScheme: "vk52141203"
+            callbackURLScheme: callbackURLScheme
         ) { [weak self] callbackUrl, _ in
+            
             guard let url = callbackUrl else {
                 completion(.failure(.authError))
                 return
@@ -56,17 +64,51 @@ final class AuthService: NSObject {
         session.start()
     }
     
-    private func fetchAccessToken(with code: String?, deviceId: String?, completion: @escaping (Result<Void, NetworkError>) -> Void) {
+    func logout(completion: @escaping (Result<Void, NetworkError>) -> Void) {
+        guard let url = createUrl(path: "/oauth2/logout") else {
+            completion(.failure(.someError))
+            return
+        }
+        
+        let accessToken = keychain.get("accessToken")
+        let parameters = [
+            "client_id": vkAppId,
+            "access_token": accessToken
+        ]
+        
+        AF.request(
+            url,
+            method: .post,
+            parameters: parameters,
+            encoder: JSONParameterEncoder.default
+        )
+        .validate()
+        .response() { response in
+            switch response.result {
+            case .success(_):
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(.responseError))
+                print("Request error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func fetchAccessToken(
+        with code: String?,
+        deviceId: String?,
+        completion: @escaping (Result<Void, NetworkError>) -> Void
+    ) {
         guard let code = code, let deviceId = deviceId else {
             completion(.failure(.authError))
             return
         }
         
         let queryItems: [URLQueryItem] = [
-            .init(name: "client_id", value: "52141203"),
+            .init(name: "client_id", value: vkAppId),
             .init(name: "grant_type", value: "authorization_code"),
             .init(name: "device_id", value: deviceId),
-            .init(name: "redirect_uri", value: "vk52141203://vk.com/blank.html"),
+            .init(name: "redirect_uri", value: redirectUri),
             .init(name: "code_verifier", value: "egPK3gB2Gtfh_sR7pReSKzHzIsansss5JFeJEOmFKBY"),
         ]
         
@@ -99,7 +141,7 @@ final class AuthService: NSObject {
         }
     }
     
-    private func createUrl(path: String, queryItems: [URLQueryItem]) -> URL? {
+    private func createUrl(path: String, queryItems: [URLQueryItem]? = nil) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "id.vk.com"

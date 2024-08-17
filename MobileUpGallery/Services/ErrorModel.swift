@@ -12,4 +12,5 @@ enum NetworkError: Error {
     case responseError
     case internetError
     case authError
+    case someError
 }

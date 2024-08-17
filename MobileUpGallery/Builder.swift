@@ -18,7 +18,11 @@ final class Builder {
     }
     
     static func createGallery() -> UIViewController {
-        GalleryContainerViewController()
+        let router = GalleryContainerRouter()
+        let presenter = GalleryContainerPresenter(router: router)
+        let view = GalleryContainerViewController(presenter: presenter)
+        router.controller = view
+        return view
     }
     
     
