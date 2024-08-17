@@ -15,7 +15,6 @@ final class LoginRouter: Router, LoginRouterProtocol {
     
     func showGallery() {
         let vc = Builder.createGallery()
-        let navVC = UINavigationController(rootViewController: vc)
-        presentScreen(navVC)
+        presentScreen(vc)
     }
 }

@@ -16,7 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
-        window?.rootViewController = Builder.createLogin()
+        window?.rootViewController = AuthService.shared.isUserAuthorized
+        ? Builder.createGallery()
+        : Builder.createLogin()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -22,7 +22,7 @@ final class Builder {
         let presenter = GalleryContainerPresenter(router: router)
         let view = GalleryContainerViewController(presenter: presenter)
         router.controller = view
-        return view
+        return UINavigationController(rootViewController: view)  
     }
     
     

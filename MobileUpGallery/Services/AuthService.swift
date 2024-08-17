@@ -7,7 +7,6 @@
 
 import Alamofire
 import AuthenticationServices
-import KeychainSwift
 
 final class AuthService: NSObject {
     
@@ -16,14 +15,18 @@ final class AuthService: NSObject {
         super.init()
     }
     
-    private let keychain = KeychainSwift()
-    
     private let vkAppId = "52141203"
     private var redirectUri: String {
         "vk\(vkAppId)://vk.com/blank.html"
     }
     private var callbackURLScheme: String {
         "vk\(vkAppId)"
+    }
+    
+    var isUserAuthorized: Bool {
+        guard let tokenInfo = KeychainStorage.shared.getToken() else { return false }
+        let isUserAuthorized = tokenInfo.expiringDate > Date()
+        return isUserAuthorized
     }
     
     func startAuthSession(completion: @escaping (Result<Void, NetworkError>) -> Void) {
@@ -70,7 +73,7 @@ final class AuthService: NSObject {
             return
         }
         
-        let accessToken = keychain.get("accessToken")
+        let accessToken = KeychainStorage.shared.getToken()?.accessToken
         let parameters = [
             "client_id": vkAppId,
             "access_token": accessToken
@@ -128,11 +131,17 @@ final class AuthService: NSObject {
             headers: headers
         )
         .validate()
-        .responseDecodable(of: AccessTokenResponse.self) { [weak self] response in
+        .responseDecodable(of: AccessTokenResponse.self) { response in
             switch response.result {
             case .success(let response):
-                self?.keychain.set(response.accessToken, forKey: "accessToken")
-                self?.keychain.set(response.refreshToken, forKey: "refreshToken")
+                KeychainStorage.shared.save(
+                    token: .init(
+                        refreshToken: response.accessToken,
+                        accessToken: response.refreshToken,
+                        expiringDate: Date().addingTimeInterval(TimeInterval(response.expiresIn))
+                    ),
+                    key: .accessToken
+                )
                 completion(.success(()))
             case .failure(let error):
                 completion(.failure(.responseError))
