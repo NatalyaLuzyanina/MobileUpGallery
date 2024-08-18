@@ -29,6 +29,11 @@ final class PhotoGalleryPresenter: PhotoGalleryPresenterProtocol {
                     self?.updateView(with: response.photos)
                 }
             case .failure(let error):
+// раскоментить на случай ошибки 404 (ошибка, тк нет прав доступа, которые выдает ВК)
+//                if let mockData = NetworkService.shared.getMockPhotos() {
+//                    self?.updateView(with: mockData.photos)
+//                }
+//                
                 self?.view?.showError(
                     title: error.title,
                     message: error.message

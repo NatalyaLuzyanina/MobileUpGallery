@@ -48,6 +48,7 @@ final class Builder {
     static func createPhoto(id: Int) -> UIViewController {
         let presenter = PhotoPresenter(id: id)
         let view = PhotoViewController(presenter: presenter)
+        presenter.view = view
         return view
     }
     

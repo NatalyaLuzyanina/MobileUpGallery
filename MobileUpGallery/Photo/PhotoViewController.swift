@@ -16,7 +16,11 @@ final class PhotoViewController: UIViewController {
 
     private let presenter: PhotoPresenterProtocol
     
-    private let photoImage = UIImageView()
+    private let photoImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
     
     init(presenter: PhotoPresenterProtocol) {
         self.presenter = presenter

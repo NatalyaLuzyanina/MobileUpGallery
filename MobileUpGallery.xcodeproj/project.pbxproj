@@ -38,6 +38,7 @@
 		B9813DBF2C6CB68800E311F3 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9813DBE2C6CB68800E311F3 /* LoginRouter.swift */; };
 		B9813DC12C6CB6FC00E311F3 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9813DC02C6CB6FC00E311F3 /* Router.swift */; };
 		B98803B22C72433800A3672B /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98803B12C72433800A3672B /* UIViewController+extension.swift */; };
+		B98803BA2C726DA900A3672B /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98803B92C726DA900A3672B /* APIManager.swift */; };
 		B9B4BE052C6D53E300C770BC /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE042C6D53E300C770BC /* AuthService.swift */; };
 		B9B4BE1B2C6E990600C770BC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B9B4BE1A2C6E990600C770BC /* Alamofire */; };
 		B9B4BE202C6EA37B00C770BC /* GalleryContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B4BE1C2C6EA37B00C770BC /* GalleryContainerViewController.swift */; };
@@ -87,6 +88,7 @@
 		B9813DBE2C6CB68800E311F3 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		B9813DC02C6CB6FC00E311F3 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		B98803B12C72433800A3672B /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
+		B98803B92C726DA900A3672B /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		B9B4BE042C6D53E300C770BC /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B9B4BE152C6E7F8100C770BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B9B4BE1C2C6EA37B00C770BC /* GalleryContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryContainerViewController.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				B95A2B7E2C71081C001F239D /* NetworkService.swift */,
+				B98803B92C726DA900A3672B /* APIManager.swift */,
 				B90022F12C71F654009F4240 /* VideoResponse.swift */,
 				B95A2B7C2C7106E5001F239D /* PhotoResponse.swift */,
 				B9D330422C708B7E003791C2 /* AccessTokenResponse.swift */,
@@ -392,6 +395,7 @@
 				B90022EB2C71EA34009F4240 /* VideoGalleryModel.swift in Sources */,
 				B90022E92C71E6E3009F4240 /* DetailVideoModel.swift in Sources */,
 				B90022F32C71F654009F4240 /* VideoResponse.swift in Sources */,
+				B98803BA2C726DA900A3672B /* APIManager.swift in Sources */,
 				B9B4BE222C6EA37B00C770BC /* VideoGalleryViewController.swift in Sources */,
 				B9813DB42C6BCC6200E311F3 /* LoginPresenter.swift in Sources */,
 				B90022E72C71E671009F4240 /* VideoPresenter.swift in Sources */,

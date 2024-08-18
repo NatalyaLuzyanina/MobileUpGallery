@@ -15,13 +15,9 @@ final class AuthService: NSObject {
         super.init()
     }
     
-    private let vkAppId = "52141203"
-    private var redirectUri: String {
-        "vk\(vkAppId)://vk.com/blank.html"
-    }
-    private var callbackURLScheme: String {
-        "vk\(vkAppId)"
-    }
+    private let api = APIManager.shared
+    
+
     
     var isUserAuthorized: Bool {
         guard let tokenInfo = KeychainStorage.shared.getToken() else { return false }
@@ -30,24 +26,26 @@ final class AuthService: NSObject {
     }
     
     func startAuthSession(completion: @escaping (Result<Void, ErrorModel>) -> Void) {
+ 
+        let url = api.createUrl(
+            for: .startAuth,
+            queryItems: [
+                .state: api.state,
+                .responseType: api.responseTypeCode,
+                .codeChallenge: api.codeChallenge,
+                .codeChallengeMethod: api.codeChallengeMethod,
+                .clientId: api.vkAppId,
+                .redirectUri: api.redirectUri,
+                .prompt: api.prompt
+            ])
         
-        let queryItems: [URLQueryItem] = [
-            .init(name: "state", value: "abracadabra"),
-            .init(name: "response_type", value: "code"),
-            .init(name: "code_challenge", value: "1DDoDWTzErI69s0x6NXeoLmrsf8FSTXbxQTD_gAryhk"),
-            .init(name: "code_challenge_method", value: "sha256"),
-            .init(name: "client_id", value: vkAppId),
-            .init(name: "redirect_uri", value: redirectUri),
-            .init(name: "prompt", value: "login")
-        ]
-        
-        guard let url = createUrl(path: "/authorize", queryItems: queryItems) else {
+        guard let url = url else {
             completion(.failure(.authError))
             return
         }
         let session = ASWebAuthenticationSession(
             url: url,
-            callbackURLScheme: callbackURLScheme
+            callbackURLScheme: api.callbackURLScheme
         ) { [weak self] callbackUrl, _ in
             
             guard let url = callbackUrl else {
@@ -68,14 +66,15 @@ final class AuthService: NSObject {
     }
     
     func logout(completion: @escaping (Result<Void, ErrorModel>) -> Void) {
-        guard let url = createUrl(path: "/oauth2/logout") else {
+      
+        guard let url = api.createUrl(for: .logout) else {
             completion(.failure(.logoutError))
             return
         }
         
         let accessToken = KeychainStorage.shared.getToken()?.accessToken
         let parameters = [
-            "client_id": vkAppId,
+            "client_id": api.vkAppId,
             "access_token": accessToken
         ]
         
@@ -106,16 +105,19 @@ final class AuthService: NSObject {
             completion(.failure(.authError))
             return
         }
+       
+        let url = api.createUrl(
+            for: .accessToken,
+            queryItems: [
+                .clientId: api.vkAppId,
+                .grantType: api.grantType,
+                .deviceId: deviceId,
+                .redirectUri: api.redirectUri,
+                .codeVerifier: api.codeVerifier
+            ]
+        )
         
-        let queryItems: [URLQueryItem] = [
-            .init(name: "client_id", value: vkAppId),
-            .init(name: "grant_type", value: "authorization_code"),
-            .init(name: "device_id", value: deviceId),
-            .init(name: "redirect_uri", value: redirectUri),
-            .init(name: "code_verifier", value: "egPK3gB2Gtfh_sR7pReSKzHzIsansss5JFeJEOmFKBY"),
-        ]
-        
-        guard let url = createUrl(path: "/oauth2/auth", queryItems: queryItems) else {
+        guard let url = url else {
             completion(.failure(.authError))
             return
         }
@@ -148,15 +150,6 @@ final class AuthService: NSObject {
                 print("Request error: \(error.localizedDescription)")
             }
         }
-    }
-    
-    private func createUrl(path: String, queryItems: [URLQueryItem]? = nil) -> URL? {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = "https"
-        urlComponents.host = "id.vk.com"
-        urlComponents.path = path
-        urlComponents.queryItems = queryItems
-        return urlComponents.url
     }
 }
 

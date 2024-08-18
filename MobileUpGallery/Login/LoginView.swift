@@ -20,7 +20,6 @@ final class LoginView: UIView {
         label.text = Strings.Login.title
         label.numberOfLines = .zero
         label.font = .systemFont(ofSize: 44, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -30,7 +29,6 @@ final class LoginView: UIView {
         button.backgroundColor = .black
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -49,15 +47,16 @@ final class LoginView: UIView {
         addSubview(titleLabel)
         addSubview(loginButton)
         
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 170),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
-            
-            loginButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            loginButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            loginButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            loginButton.heightAnchor.constraint(equalToConstant: 52)
-        ])
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(170)
+            $0.leading.equalToSuperview().inset(24)
+        }
+        
+        loginButton.snp.makeConstraints {
+            $0.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(8)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(52)
+        }
     }
     
     @objc private func loginButtonTapped() {
