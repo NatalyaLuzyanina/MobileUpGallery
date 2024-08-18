@@ -17,6 +17,7 @@ final class VideoViewController: UIViewController {
 
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
+        webView.scrollView.backgroundColor = .white
         webView.navigationDelegate = self
         return webView
     }()
@@ -64,7 +65,6 @@ extension VideoViewController: VideoViewControllerProtocol {
         guard let url = URL(string: model.url) else { return }
         let urlRequest = URLRequest(url: url)
         webView.load(urlRequest)
-        navigationController?.view.backgroundColor = .systemBackground
     }
 }
 
@@ -74,10 +74,6 @@ extension VideoViewController: WKNavigationDelegate {
         decidePolicyFor navigationResponse: WKNavigationResponse,
         decisionHandler: @escaping (WKNavigationResponsePolicy
         ) -> Void) {
-        guard let url = navigationResponse.response.url else {
-            decisionHandler(.allow)
-            return
-        }
-        decisionHandler(.cancel)
+        decisionHandler(.allow)
     }
 }
