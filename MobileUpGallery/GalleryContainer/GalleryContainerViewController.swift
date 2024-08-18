@@ -23,7 +23,7 @@ final class GalleryContainerViewController: UIViewController {
     }
     
     private var videoVC: UIViewController {
-        VideoGalleryViewController()
+        Builder.sreateVideoGallery()
     }
     
     private lazy var segmentedControl: UISegmentedControl = {

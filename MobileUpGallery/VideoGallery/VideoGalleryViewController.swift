@@ -8,7 +8,14 @@
 import SnapKit
 import UIKit
 
+protocol VideoGalleryViewControllerProtocol: AnyObject {
+    func updateView(with model: VideoGalleryModel)
+}
+
 final class VideoGalleryViewController: UIViewController {
+    
+    private let presenter: VideoGalleryPresenterProtocol
+    private var model: VideoGalleryModel?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -18,6 +25,15 @@ final class VideoGalleryViewController: UIViewController {
         tableView.register(VideoCell.self, forCellReuseIdentifier: VideoCell.identifier)
         return tableView
     }()
+    
+    init(presenter: VideoGalleryPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +45,13 @@ final class VideoGalleryViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+}
+
+extension VideoGalleryViewController: VideoGalleryViewControllerProtocol {
+    func updateView(with model: VideoGalleryModel) {
+        self.model = model
+        tableView.reloadData()
     }
 }
 
@@ -44,17 +67,19 @@ extension VideoGalleryViewController: UITableViewDataSource {
                 for: indexPath
             ) as? VideoCell
         else { return UITableViewCell() }
+        cell.selectionStyle = .none
         return cell
     }
 }
 
 extension VideoGalleryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
+        guard let id = model?.videos[indexPath.row].id else { return }
+        presenter.showVideo(with: id)
     }
 }
 
-@available(iOS 17.0, *)
-#Preview {
-    VideoGalleryViewController()
-}
+//@available(iOS 17.0, *)
+//#Preview {
+//    VideoGalleryViewController()
+//}

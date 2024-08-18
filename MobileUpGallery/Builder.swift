@@ -34,10 +34,24 @@ final class Builder {
         return view
     }
     
+    static func sreateVideoGallery() -> UIViewController {
+        let router = VideoGalleryRouter()
+        let presenter = VideoGalleryPresenter(router: router)
+        let view = VideoGalleryViewController(presenter: presenter)
+        router.controller = view
+        presenter.view = view
+        return view
+    }
+    
     static func createPhoto(id: Int) -> UIViewController {
         let presenter = PhotoPresenter(id: id)
         let view = PhotoViewController(presenter: presenter)
         return view
     }
     
+    static func createVideo(id: Int) -> UIViewController {
+        let presenter = VideoPresenter(id: id)
+        let view = VideoViewController(presenter: presenter)
+        return view
+    }
 }

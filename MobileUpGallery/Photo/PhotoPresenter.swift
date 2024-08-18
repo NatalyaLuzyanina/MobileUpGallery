@@ -14,7 +14,7 @@ protocol PhotoPresenterProtocol {
 final class PhotoPresenter: PhotoPresenterProtocol {
     
     weak var view: PhotoViewControllerProtocol?
-    let id: Int
+    private let id: Int
     
     init(id: Int) {
         self.id = id
