@@ -52,6 +52,7 @@ final class Builder {
     static func createVideo(id: Int) -> UIViewController {
         let presenter = VideoPresenter(id: id)
         let view = VideoViewController(presenter: presenter)
+        presenter.view = view
         return view
     }
 }

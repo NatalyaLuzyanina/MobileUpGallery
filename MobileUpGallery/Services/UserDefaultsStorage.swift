@@ -16,6 +16,7 @@ final class UserDefaultsStorage {
     
     enum Key: String {
         case photosResponse
+        case videoResponse
     }
     
     func set<T: Encodable>(_ value: T, forKey key: Key) {

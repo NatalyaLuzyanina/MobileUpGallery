@@ -5,18 +5,14 @@
 //  Created by Natalia on 16.08.2024.
 //
 
-import UIKit
 import SnapKit
+import UIKit
 
 final class VideoCell: UITableViewCell {
     
     static let identifier = String(describing: VideoCell.self)
     
-    private let videoPreview: UIImageView = {
-        let image: UIImage = .mockImg
-        let view = UIImageView(image: image)
-        return view
-    }()
+    private let coverImageView = UIImageView()
     
     private let backgroundLabelView: UIView = {
         let view = UIView()
@@ -37,7 +33,6 @@ final class VideoCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13)
         label.numberOfLines = .zero
-        label.text = "Экскурсия по нашему уютному офису на Владимирской"
         return label
     }()
     
@@ -52,9 +47,15 @@ final class VideoCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureView(with title: String, imageUrl: String) {
+        titleLabel.text = title
+        let url = URL(string: imageUrl)
+        coverImageView.kf.setImage(with: url)
+    }
+    
     private func setViews() {
-        addSubview(videoPreview)
-        videoPreview.addSubview(backgroundLabelView)
+        addSubview(coverImageView)
+        coverImageView.addSubview(backgroundLabelView)
         backgroundLabelView.addSubview(titleLabel)
         
         backgroundLabelView.addSubview(blurEffectView)
@@ -62,7 +63,7 @@ final class VideoCell: UITableViewCell {
     }
     
     private func setConstraints() {
-        videoPreview.snp.makeConstraints {
+        coverImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview().inset(4)
             $0.trailing.leading.equalToSuperview()

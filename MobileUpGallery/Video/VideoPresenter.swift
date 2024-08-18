@@ -15,6 +15,7 @@ protocol VideoPresenterProtocol {
 final class VideoPresenter: VideoPresenterProtocol {
     
     weak var view: VideoViewControllerProtocol?
+    private let storage = UserDefaultsStorage.shared
     private let id: Int
     
     init(id: Int) {
@@ -22,9 +23,16 @@ final class VideoPresenter: VideoPresenterProtocol {
     }
     
     func loadData() {
-        let model = DetailVideoModel(title: "", url: "")
+        guard
+            let videoItems: VideoResponse = storage.get(.videoResponse),
+            let video = videoItems.response.items
+                .first(where: { $0.id == id }) 
+        else { return }
+        
+        let model = DetailVideoModel(
+            title: video.title,
+            url: video.player
+        )
         view?.updateView(with: model)
     }
-    
-   
 }

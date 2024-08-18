@@ -45,6 +45,7 @@ final class VideoViewController: UIViewController {
         )
         
         presenter.loadData()
+        
     }
     
     @objc private func shareMenuTapped() {
@@ -63,9 +64,20 @@ extension VideoViewController: VideoViewControllerProtocol {
         guard let url = URL(string: model.url) else { return }
         let urlRequest = URLRequest(url: url)
         webView.load(urlRequest)
+        navigationController?.view.backgroundColor = .systemBackground
     }
 }
 
 extension VideoViewController: WKNavigationDelegate {
-    
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationResponse: WKNavigationResponse,
+        decisionHandler: @escaping (WKNavigationResponsePolicy
+        ) -> Void) {
+        guard let url = navigationResponse.response.url else {
+            decisionHandler(.allow)
+            return
+        }
+        decisionHandler(.cancel)
+    }
 }

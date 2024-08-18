@@ -39,6 +39,7 @@ final class VideoGalleryViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(tableView)
+        presenter.loadData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -57,7 +58,7 @@ extension VideoGalleryViewController: VideoGalleryViewControllerProtocol {
 
 extension VideoGalleryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        model?.videos.count ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,6 +69,9 @@ extension VideoGalleryViewController: UITableViewDataSource {
             ) as? VideoCell
         else { return UITableViewCell() }
         cell.selectionStyle = .none
+        if let item = model?.videos[indexPath.row] {
+            cell.configureView(with: item.title, imageUrl: item.url)
+        }
         return cell
     }
 }

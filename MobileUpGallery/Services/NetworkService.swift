@@ -31,6 +31,24 @@ final class NetworkService {
         }
     }
     
+    func loadVideos(completion: @escaping (Result<VideoResponseData, Error>) -> Void) {
+        if let path = Bundle.main.path(forResource: "mockVideo", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                do {
+                    let items = try JSONDecoder().decode(VideoResponse.self, from: data)
+                    
+                    UserDefaultsStorage.shared.set(items, forKey: .videoResponse)
+                    completion(.success(items.response))
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func fetchPhoto(with id: Int) -> Photo? {
         guard let photos: PhotoResponse = UserDefaultsStorage.shared.get(.photosResponse) else {
             return nil
@@ -39,5 +57,6 @@ final class NetworkService {
         return photo
     }
 
+    
     
 }
