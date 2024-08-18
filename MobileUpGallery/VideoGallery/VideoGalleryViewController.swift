@@ -10,6 +10,7 @@ import UIKit
 
 protocol VideoGalleryViewControllerProtocol: AnyObject {
     func updateView(with model: VideoGalleryModel)
+    func showError(_ error: ErrorModel)
 }
 
 final class VideoGalleryViewController: UIViewController {
@@ -50,6 +51,10 @@ final class VideoGalleryViewController: UIViewController {
 }
 
 extension VideoGalleryViewController: VideoGalleryViewControllerProtocol {
+    func showError(_ error: ErrorModel) {
+        showAlert(title: error.title, message: error.message)
+    }
+    
     func updateView(with model: VideoGalleryModel) {
         self.model = model
         tableView.reloadData()

@@ -29,7 +29,7 @@ final class AuthService: NSObject {
         return isUserAuthorized
     }
     
-    func startAuthSession(completion: @escaping (Result<Void, NetworkError>) -> Void) {
+    func startAuthSession(completion: @escaping (Result<Void, ErrorModel>) -> Void) {
         
         let queryItems: [URLQueryItem] = [
             .init(name: "state", value: "abracadabra"),
@@ -67,9 +67,9 @@ final class AuthService: NSObject {
         session.start()
     }
     
-    func logout(completion: @escaping (Result<Void, NetworkError>) -> Void) {
+    func logout(completion: @escaping (Result<Void, ErrorModel>) -> Void) {
         guard let url = createUrl(path: "/oauth2/logout") else {
-            completion(.failure(.someError))
+            completion(.failure(.logoutError))
             return
         }
         
@@ -91,7 +91,7 @@ final class AuthService: NSObject {
             case .success(_):
                 completion(.success(()))
             case .failure(let error):
-                completion(.failure(.responseError))
+                completion(.failure(.logoutError))
                 print("Request error: \(error.localizedDescription)")
             }
         }
@@ -100,7 +100,7 @@ final class AuthService: NSObject {
     private func fetchAccessToken(
         with code: String?,
         deviceId: String?,
-        completion: @escaping (Result<Void, NetworkError>) -> Void
+        completion: @escaping (Result<Void, ErrorModel>) -> Void
     ) {
         guard let code = code, let deviceId = deviceId else {
             completion(.failure(.authError))
@@ -144,7 +144,7 @@ final class AuthService: NSObject {
                 )
                 completion(.success(()))
             case .failure(let error):
-                completion(.failure(.responseError))
+                completion(.failure(.authError))
                 print("Request error: \(error.localizedDescription)")
             }
         }

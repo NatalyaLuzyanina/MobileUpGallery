@@ -13,6 +13,7 @@ protocol GalleryContainerPresenterProtocol {
 
 final class GalleryContainerPresenter: GalleryContainerPresenterProtocol {
     
+    weak var view: GalleryContainerViewProtocol?
     private let router: GalleryContainerRouterProtocol
     
     init(router: GalleryContainerRouterProtocol) {
@@ -24,9 +25,8 @@ final class GalleryContainerPresenter: GalleryContainerPresenterProtocol {
             switch result {
             case .success():
                 self?.router.showLogin()
-            case .failure(_):
-                print("failure")
-                // show alert
+            case .failure(let error):
+                self?.view?.showError(error)
             }
         }
     }

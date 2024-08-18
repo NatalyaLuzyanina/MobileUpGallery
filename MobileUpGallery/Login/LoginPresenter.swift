@@ -13,6 +13,7 @@ protocol LoginPresenterProtocol: AnyObject {
 
 final class LoginPresenter: LoginPresenterProtocol {
     
+    weak var view: LoginViewControllerProtocol?
     private let router: LoginRouterProtocol
     
     init(router: LoginRouterProtocol) {
@@ -24,9 +25,8 @@ final class LoginPresenter: LoginPresenterProtocol {
             switch result {
             case .success(_):
                 self?.router.showGallery()
-            case .failure(_):
-                #warning("to do")
-                print("failure")
+            case .failure(let error):
+                self?.view?.showError(error)
             }
         })
     }

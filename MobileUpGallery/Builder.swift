@@ -13,6 +13,7 @@ final class Builder {
         let router = LoginRouter()
         let presenter = LoginPresenter(router: router)
         let view = LoginViewController(presenter: presenter)
+        presenter.view = view
         router.controller = view
         return view
     }
@@ -21,6 +22,7 @@ final class Builder {
         let router = GalleryContainerRouter()
         let presenter = GalleryContainerPresenter(router: router)
         let view = GalleryContainerViewController(presenter: presenter)
+        presenter.view = view
         router.controller = view
         return UINavigationController(rootViewController: view)  
     }

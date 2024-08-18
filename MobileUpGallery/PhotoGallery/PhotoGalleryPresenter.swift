@@ -25,10 +25,14 @@ final class PhotoGalleryPresenter: PhotoGalleryPresenterProtocol {
         NetworkService.shared.loadPhotos { [weak self] result in
             switch result {
             case .success(let response):
-                self?.updateView(with: response.photos)
-            case .failure(let failure):
-                #warning("to do")
-                print("failure loadData")
+                DispatchQueue.main.async {
+                    self?.updateView(with: response.photos)
+                }
+            case .failure(let error):
+                self?.view?.showError(
+                    title: error.title,
+                    message: error.message
+                )
             }
         }
     }

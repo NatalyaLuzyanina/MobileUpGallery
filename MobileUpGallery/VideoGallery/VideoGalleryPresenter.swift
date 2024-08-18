@@ -25,9 +25,11 @@ final class VideoGalleryPresenter: VideoGalleryPresenterProtocol {
         NetworkService.shared.loadVideos { [weak self] result in
             switch result {
             case .success(let videoResponse):
-                self?.updateView(with: videoResponse)
-            case .failure(_):
-                print("Error")
+                DispatchQueue.main.async {
+                    self?.updateView(with: videoResponse)
+                }
+            case .failure(let error):
+                self?.view?.showError(error)
             }
         }
     }

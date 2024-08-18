@@ -10,11 +10,14 @@ import WebKit
 
 protocol VideoViewControllerProtocol: AnyObject {
     func updateView(with model: DetailVideoModel)
+    func showError(_ error: ErrorModel)
 }
 
 final class VideoViewController: UIViewController {
+    
     private let presenter: VideoPresenterProtocol
-
+    private var model: DetailVideoModel?
+    
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
         webView.scrollView.backgroundColor = .white
@@ -46,25 +49,38 @@ final class VideoViewController: UIViewController {
         )
         
         presenter.loadData()
-        
     }
     
     @objc private func shareMenuTapped() {
-        #warning("to do")
+        guard let item = model?.url else { return }
         let activityViewController = UIActivityViewController(
-            activityItems: [],
+            activityItems: [item],
             applicationActivities: [UIActivity()]
         )
+        activityViewController.completionWithItemsHandler = { _, success, _, error in
+            if let error = error {
+                self.showAlert(
+                    title: Strings.Error.commonError,
+                    message: error.localizedDescription,
+                    needsOkAction: false
+                )
+            }
+        }
         present(activityViewController, animated: true)
     }
 }
 
 extension VideoViewController: VideoViewControllerProtocol {
     func updateView(with model: DetailVideoModel) {
+        self.model = model
         title = model.title
         guard let url = URL(string: model.url) else { return }
         let urlRequest = URLRequest(url: url)
         webView.load(urlRequest)
+    }
+    
+    func showError(_ error: ErrorModel) {
+        showAlert(title: error.title, message: error.message)
     }
 }
 

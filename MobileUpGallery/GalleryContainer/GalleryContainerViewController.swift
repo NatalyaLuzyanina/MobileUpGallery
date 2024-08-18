@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol GalleryContainerViewProtocol: AnyObject {
+    func showError(_ error: ErrorModel)
+}
+
 final class GalleryContainerViewController: UIViewController {
     
     private enum Tab: Int {
@@ -109,5 +113,11 @@ final class GalleryContainerViewController: UIViewController {
             $0.top.equalTo(segmentedControl.snp.bottom).offset(8)
             $0.bottom.leading.trailing.equalToSuperview()
         }
+    }
+}
+
+extension GalleryContainerViewController: GalleryContainerViewProtocol {
+    func showError(_ error: ErrorModel) {
+        showAlert(title: error.title, message: error.message)
     }
 }

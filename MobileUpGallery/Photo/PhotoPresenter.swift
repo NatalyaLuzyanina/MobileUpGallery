@@ -14,6 +14,7 @@ protocol PhotoPresenterProtocol {
 final class PhotoPresenter: PhotoPresenterProtocol {
     
     weak var view: PhotoViewControllerProtocol?
+    private let storage =  UserDefaultsStorage.shared
     private let id: Int
     
     init(id: Int) {
@@ -21,15 +22,16 @@ final class PhotoPresenter: PhotoPresenterProtocol {
     }
     
     func loadData() {
-        let photo = NetworkService.shared.fetchPhoto(with: id)
-      
         guard
-            let url = photo?.largeSize?.url,
-            let dateString = photo?.date.formatToTextString() 
+            let photos: PhotoResponse = storage.get(.photosResponse),
+            let photo = photos.photos.first(where: { $0.id == id }),
+            let url = photo.largeSize?.url
         else {
-            // show error
+            view?.showError(.loadingError)
             return
         }
+       
+        let dateString = photo.date.formatToTextString()
         let model = DetailPhotoModel(date: dateString, imageUrl: url)
         view?.updateView(with: model)
     }

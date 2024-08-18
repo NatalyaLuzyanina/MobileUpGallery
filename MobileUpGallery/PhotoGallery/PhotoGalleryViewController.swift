@@ -9,6 +9,7 @@ import UIKit
 
 protocol PhotoGalleryViewControllerProtocol: AnyObject {
     func updateView(with model: PhotoGalleryModel)
+    func showError(title: String, message: String)
 }
 
 final class PhotoGalleryViewController: UIViewController {
@@ -46,7 +47,6 @@ final class PhotoGalleryViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
-
 }
 
 extension PhotoGalleryViewController: UICollectionViewDataSource {
@@ -117,12 +117,14 @@ extension PhotoGalleryViewController: UICollectionViewDelegate {
 }
 
 extension PhotoGalleryViewController: PhotoGalleryViewControllerProtocol {
+    func showError(title: String, message: String) {
+        showAlert(title: title, message: message)
+    }
+    
     func updateView(with model: PhotoGalleryModel) {
         self.model = model
         collectionView.reloadData()
     }
-    
-    
 }
 
 //@available(iOS 17.0, *)

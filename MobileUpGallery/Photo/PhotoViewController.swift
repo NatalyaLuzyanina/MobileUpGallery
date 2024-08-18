@@ -9,6 +9,7 @@ import UIKit
 
 protocol PhotoViewControllerProtocol: AnyObject {
     func updateView(with model: DetailPhotoModel)
+    func showError(_ error: ErrorModel)
 }
 
 final class PhotoViewController: UIViewController {
@@ -55,6 +56,15 @@ final class PhotoViewController: UIViewController {
             activityItems: [image],
             applicationActivities: [UIActivity()]
         )
+        activityViewController.completionWithItemsHandler = { _, success, _, error in
+            if let error = error {
+                self.showAlert(
+                    title: Strings.Error.commonError,
+                    message: error.localizedDescription,
+                    needsOkAction: false
+                )
+            }
+        }
         present(activityViewController, animated: true)
     }
 }
@@ -64,5 +74,9 @@ extension PhotoViewController: PhotoViewControllerProtocol {
         title = model.date
         let url = URL(string: model.imageUrl)
         photoImage.kf.setImage(with: url)
+    }
+    
+    func showError(_ error: ErrorModel) {
+        showAlert(title: error.title, message: error.message)
     }
 }

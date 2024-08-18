@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol LoginViewControllerProtocol: AnyObject {
+    func showError(_ error: ErrorModel)
+}
+
 final class LoginViewController: UIViewController {
     
     private let presenter: LoginPresenterProtocol
@@ -26,6 +30,12 @@ final class LoginViewController: UIViewController {
         view = customView
     }
     
+}
+
+extension LoginViewController: LoginViewControllerProtocol {
+    func showError(_ error: ErrorModel) {
+        showAlert(title: error.title, message: error.message)
+    }
 }
 
 extension LoginViewController: LoginViewDelegate {

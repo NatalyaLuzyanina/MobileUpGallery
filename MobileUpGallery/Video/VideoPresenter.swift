@@ -27,7 +27,10 @@ final class VideoPresenter: VideoPresenterProtocol {
             let videoItems: VideoResponse = storage.get(.videoResponse),
             let video = videoItems.response.items
                 .first(where: { $0.id == id }) 
-        else { return }
+        else {
+            view?.showError(.loadingError)
+            return
+        }
         
         let model = DetailVideoModel(
             title: video.title,
