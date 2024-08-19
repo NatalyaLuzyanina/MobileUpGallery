@@ -28,6 +28,7 @@ class APIManager {
     let grantType = "authorization_code"
     let codeVerifier = "egPK3gB2Gtfh_sR7pReSKzHzIsansss5JFeJEOmFKBY"
     let ownerId = "-128666765"
+    let scope = "photos video"
     
     private let scheme = "https"
     private let host = "id.vk.com"
@@ -67,6 +68,7 @@ class APIManager {
         case deviceId = "device_id"
         case codeVerifier = "code_verifier"
         case ownerId = "owner_id"
+        case scope
     }
     
     func createUrl(for request: Request, queryItems: [QueryItem: String]? = nil) -> URL? {

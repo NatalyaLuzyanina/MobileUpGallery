@@ -38,4 +38,8 @@ final class KeychainStorage {
         }
         return token
     }
+    
+    func clear() {
+        keychain.clear()
+    }
 }

@@ -24,7 +24,7 @@ final class PhotoPresenter: PhotoPresenterProtocol {
     func loadData() {
         guard
             let photos: PhotoResponse = storage.get(.photosResponse),
-            let photo = photos.photos.first(where: { $0.id == id }),
+            let photo = photos.response.items.first(where: { $0.id == id }),
             let url = photo.largeSize?.url
         else {
             view?.showError(.loadingError)

@@ -29,7 +29,6 @@ final class VideoGalleryPresenter: VideoGalleryPresenterProtocol {
                     self?.updateView(with: videoResponse.response)
                 }
             case .failure(let error):
-// раскоментить на случай ошибки 404 (ошибка, тк нет прав доступа, которые выдает ВК)
 //                if let mockData = NetworkService.shared.getMockVideos()?.response {
 //                    self?.updateView(with: mockData)
 //                }

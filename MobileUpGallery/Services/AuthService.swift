@@ -17,8 +17,6 @@ final class AuthService: NSObject {
     
     private let api = APIManager.shared
     
-
-    
     var isUserAuthorized: Bool {
         guard let tokenInfo = KeychainStorage.shared.getToken() else { return false }
         let isUserAuthorized = tokenInfo.expiringDate > Date()
@@ -36,7 +34,8 @@ final class AuthService: NSObject {
                 .codeChallengeMethod: api.codeChallengeMethod,
                 .clientId: api.vkAppId,
                 .redirectUri: api.redirectUri,
-                .prompt: api.prompt
+                .prompt: api.prompt,
+                .scope: api.scope
             ])
         
         guard let url = url else {
@@ -136,10 +135,11 @@ final class AuthService: NSObject {
         .responseDecodable(of: AccessTokenResponse.self) { response in
             switch response.result {
             case .success(let response):
+                KeychainStorage.shared.clear()
                 KeychainStorage.shared.save(
                     token: .init(
-                        refreshToken: response.accessToken,
-                        accessToken: response.refreshToken,
+                        refreshToken: response.refreshToken,
+                        accessToken: response.accessToken,
                         expiringDate: Date().addingTimeInterval(TimeInterval(response.expiresIn))
                     ),
                     key: .accessToken

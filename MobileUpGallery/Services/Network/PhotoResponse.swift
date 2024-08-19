@@ -8,10 +8,15 @@
 import Foundation
 
 struct PhotoResponse: Codable {
-    let photos: [Photo]
+    let response: Response
 }
 
-struct Photo: Codable {
+struct Response: Codable {
+    let count: Int
+    let items: [PhotoItem]
+}
+
+struct PhotoItem: Codable {
     let id: Int
     let albumId: Int
     let ownerId: Int

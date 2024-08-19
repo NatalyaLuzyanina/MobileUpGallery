@@ -26,14 +26,13 @@ final class PhotoGalleryPresenter: PhotoGalleryPresenterProtocol {
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    self?.updateView(with: response.photos)
+                    self?.updateView(with: response.response.items)
                 }
             case .failure(let error):
-// раскоментить на случай ошибки 404 (ошибка, тк нет прав доступа, которые выдает ВК)
 //                if let mockData = NetworkService.shared.getMockPhotos() {
-//                    self?.updateView(with: mockData.photos)
+//                    self?.updateView(with: mockData.response.items)
 //                }
-//                
+                
                 self?.view?.showError(
                     title: error.title,
                     message: error.message
@@ -42,7 +41,7 @@ final class PhotoGalleryPresenter: PhotoGalleryPresenterProtocol {
         }
     }
     
-    func updateView(with photos: [Photo]) {
+    func updateView(with photos: [PhotoItem]) {
         let photos: [PhotoModel] = photos.compactMap { item in
             guard let url = item.mediumSize?.url else {
                 return nil
