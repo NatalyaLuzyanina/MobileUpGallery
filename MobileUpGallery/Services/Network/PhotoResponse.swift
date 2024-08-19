@@ -8,10 +8,10 @@
 import Foundation
 
 struct PhotoResponse: Codable {
-    let response: Response
+    let response: PhotoResponseData
 }
 
-struct Response: Codable {
+struct PhotoResponseData: Codable {
     let count: Int
     let items: [PhotoItem]
 }
@@ -34,15 +34,10 @@ struct PhotoItem: Codable {
         case dateInt = "date"
         case sizes
     }
-    
-    var mediumSize: PhotoSize? {
-        sizes.first(where: { $0.type == "m" } )
+
+    var highestResolutionImageURL: String? {
+        return sizes.max { $0.width < $1.width }?.url
     }
-    
-    var largeSize: PhotoSize? {
-        sizes.first(where: { $0.type == "x" } )
-    }
-    
     var date: Date {
         Date(timeIntervalSince1970: TimeInterval(dateInt))
     }

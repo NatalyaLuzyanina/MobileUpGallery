@@ -23,7 +23,7 @@ final class NetworkService {
         let accessToken = KeychainStorage.shared.getToken()?.accessToken
         guard let url = url, let accessToken = accessToken else { return }
         
-        let headers: HTTPHeaders = [.authorization(accessToken)]
+        let headers: HTTPHeaders = [.authorization("Bearer \(accessToken)")]
         
         AF.request(url, headers: headers)
             .validate()
@@ -38,7 +38,6 @@ final class NetworkService {
                 }
             }
     }
-    
     
     func loadVideos(completion: @escaping (Result<VideoResponse, ErrorModel>) -> Void) {
         let url = APIManager.shared.createUrl(

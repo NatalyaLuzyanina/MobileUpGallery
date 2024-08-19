@@ -12,7 +12,7 @@ class APIManager {
     static let shared = APIManager()
     private init() {}
     
-    let vkAppId = "52141203"
+    let vkAppId = "52161255"
     var redirectUri: String {
         "vk\(vkAppId)://vk.com/blank.html"
     }
@@ -31,7 +31,6 @@ class APIManager {
     let scope = "photos video"
     
     private let scheme = "https"
-    private let host = "id.vk.com"
     
     enum Request {
         case startAuth
@@ -54,6 +53,15 @@ class APIManager {
                 "/oauth2/auth"
             }
         }
+        
+        var host: String {
+            switch self {
+            case .startAuth, .accessToken, .logout:
+                "id.vk.com"
+            case .getPhoto, .getVideo:
+                "api.vk.com"
+            }
+        }
     }
     
     enum QueryItem: String {
@@ -74,13 +82,14 @@ class APIManager {
     func createUrl(for request: Request, queryItems: [QueryItem: String]? = nil) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
-        urlComponents.host = host
+        urlComponents.host = request.host
         
-        
-        let items: [URLQueryItem] = queryItems?.compactMap { item in
+        var items: [URLQueryItem] = queryItems?.compactMap { item in
                 .init(name: item.key.rawValue, value: item.value)
         } ?? []
-        
+        if request == .getPhoto || request == .getVideo {
+            items.append(.init(name: "v", value: "5.199"))
+        }
         urlComponents.queryItems = items
         urlComponents.path = request.path
         return urlComponents.url

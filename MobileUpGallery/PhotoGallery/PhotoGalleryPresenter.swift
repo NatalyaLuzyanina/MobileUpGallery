@@ -43,7 +43,7 @@ final class PhotoGalleryPresenter: PhotoGalleryPresenterProtocol {
     
     func updateView(with photos: [PhotoItem]) {
         let photos: [PhotoModel] = photos.compactMap { item in
-            guard let url = item.mediumSize?.url else {
+            guard let url = item.highestResolutionImageURL else {
                 return nil
             }
             return PhotoModel(id: item.id, url: url)
